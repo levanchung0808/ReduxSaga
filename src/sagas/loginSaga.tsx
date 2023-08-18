@@ -1,38 +1,52 @@
-import {LOGIN_FAILED, LOGIN_SUCCESS, LOGIN_USER} from '../actions/actionType';
-import {put, takeLatest} from 'redux-saga/effects';
-import {Api} from './Api';
+import { LOGIN_FAILED, LOGIN_SUCCESS, LOGIN_USER } from '../actions/actionType';
+import { put, takeLatest, call } from 'redux-saga/effects';
+import { Api } from './Api';
 
 interface DataUser {
-  results: string;
-}
+
+  results: string,
+  errorData: string,
+  totalTable: number,
+  table: {},
+  totalRow: number,
+  data: {}
+
+};
 
 interface FetchUserAction {
-  type: typeof LOGIN_USER;
   payload: {
     username: string;
     password: string;
     machine_id: string;
   };
 }
+interface IUser {
+  username: string;
+  password: string;
+  machine_id: string;
+}
 
-function* fetchUser(action: FetchUserAction) {
+
+function* fetchUser(payload: IUser) {
   try {
-    const {username, password, machine_id} = action.payload;
+    console.log('fetchUser: ', payload.username, payload.password, payload.machine_id);
+
     const dataUser: DataUser = yield Api.logintUserFromApi(
-      username,
-      password,
-      machine_id,
+      payload.username,
+      payload.password,
+      payload.machine_id,
     );
+    console.log('dataUser: ', dataUser);
     if (dataUser.results === 'S') {
-      console.log("dataUser.results === 'S'");
+      //console.log("dataUser.results === 'S'");
       yield put({
         type: LOGIN_SUCCESS,
         payload: dataUser,
-        username: username,
-        password: password,
+        username: payload.username,
+        password: payload.password,
       });
     } else if (dataUser.results === 'F') {
-      console.log("dataUser.results === 'F'");
+      //console.log("dataUser.results === 'F'");
       yield put({
         type: LOGIN_FAILED,
         payload: dataUser,
@@ -44,5 +58,7 @@ function* fetchUser(action: FetchUserAction) {
 }
 
 export function* watchFetchUser() {
+  console.log('watchFetchUser');
+
   yield takeLatest(LOGIN_USER, fetchUser);
 }

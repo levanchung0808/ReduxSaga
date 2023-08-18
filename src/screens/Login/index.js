@@ -10,8 +10,12 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(true);
 
-    const handleLogin = () => {
-       console.log('Login');
+    const dispatch = useDispatch();
+
+    const handleLogin = async () => {
+        console.log('Login');
+        await dispatch(fetchLoginAction({username, password, machine_id: '' }));
+        //console.log('data', data);
     };
 
     return (

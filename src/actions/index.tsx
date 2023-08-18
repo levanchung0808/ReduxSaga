@@ -1,6 +1,14 @@
 import {LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_USER} from './actionType';
 
-export const fetchLoginAction = (payload: any) => {
+type PayLoadType = {
+  username: string;
+  password: string;
+  machine_id: string;
+};
+
+export const fetchLoginAction = (payload: PayLoadType) => {
+  console.log('fetchLoginAction: ', payload);
+  
   return {
     type: LOGIN_USER,
     payload: payload,
