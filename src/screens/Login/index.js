@@ -1,9 +1,8 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, TextInput, ToastAndroid, ScrollView, Alert } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Image, TextInput, ScrollView, Alert } from 'react-native'
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchLoginAction } from '../../actions';
-
-import {connect} from 'react-redux';
+import md5 from 'md5';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -11,11 +10,13 @@ const Login = () => {
     const [isShowPassword, setIsShowPassword] = useState(true);
 
     const dispatch = useDispatch();
+    const loginReducers = useSelector(state => state.loginReducers);
 
     const handleLogin = async () => {
-        console.log('Login');
-        await dispatch(fetchLoginAction({username, password, machine_id: '' }));
-        //console.log('data', data);
+        const pw = md5(password);
+        await dispatch(fetchLoginAction({username, pw, machine_id: '' }));
+        console.log('User: ', loginReducers);
+        //console.log('user', loginReducers.data.data.full_name);
     };
 
     return (

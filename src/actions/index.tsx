@@ -7,8 +7,6 @@ type PayLoadType = {
 };
 
 export const fetchLoginAction = (payload: PayLoadType) => {
-  console.log('fetchLoginAction: ', payload);
-  
   return {
     type: LOGIN_USER,
     payload: payload,

@@ -10,8 +10,6 @@ const initData = {
 const loginReducers = (user = initData, action: any) => {
   switch (action.type) {
     case LOGIN_USER:
-      console.log('LOGIN_USER tsx', action.payload);
-      
       return {
         ...user,
         isLoading: true,
