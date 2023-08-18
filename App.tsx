@@ -1,7 +1,10 @@
-import React from 'react';
+import React from 'react'
 import Login from './src/screens/Login';
 
-function App(): JSX.Element {
-  return <Login />;
+const App = () => {
+  return (
+    <Login />
+  )
 }
+
 export default App;
